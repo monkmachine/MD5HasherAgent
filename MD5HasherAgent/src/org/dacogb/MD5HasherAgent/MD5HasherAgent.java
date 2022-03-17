@@ -14,7 +14,7 @@ import com.ibi.edaqm.XDDocument;
 import com.ibi.edaqm.XDErrorDocument;
 import com.ibi.edaqm.XDException;
 import com.ibi.edaqm.XDUtil;
-import com.ibi.edaqm.XDVDesc;
+
 import com.ibi.edaqm.XDNode;
 
 import org.dacogb.MD5Hasher.MD5Hasher;
