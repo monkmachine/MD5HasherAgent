@@ -188,6 +188,7 @@ public final class MD5HasherAgent extends XDAgent {
 		docOut.setRoot(resultsNode);
 		XDNode checkSumNode = new XDNode("checkSum");
 		XDNode fileSizeNode = new XDNode("fileSize");
+		XDNode errorNode = new XDNode("error");
 		MD5Hasher md5Hasher = new MD5Hasher();
 		md5Hasher.setFile(fileLocationValue);
 		try {
@@ -196,6 +197,8 @@ public final class MD5HasherAgent extends XDAgent {
 
 			logger.error("Error " + md5AlgoValue
 					+ " is not in the list of supported alorythms which are: MD2, MD5, SHA-1, SHA-224,SHA-256, SHA-384, SHA-512/224, SHA-512/256, SHA3-224, SHA3-256, SHA3-384, SHA3-512");
+			errorNode.setValue(e.toString());
+			docOut.getRoot().setLastChild(errorNode);
 			return EX_FAIL_FORMAT;
 			}
 
@@ -207,6 +210,8 @@ public final class MD5HasherAgent extends XDAgent {
 			return EX_FAIL_FORMAT;
 		} catch (IOException e) {
 			logger.error("Error is :"+e.toString());
+			errorNode.setValue(e.toString());
+			docOut.getRoot().setLastChild(errorNode);
 			return EX_FAIL_OPERATION;
 		}
 		File file = new File (fileLocationValue);
@@ -215,7 +220,7 @@ public final class MD5HasherAgent extends XDAgent {
 	      docOut.getRoot().setLastChild(checkSumNode);
 	      fileSizeNode.setValue(fileSize);
 	      docOut.getRoot().setLastChild(fileSizeNode);
-	      docOut.makeJson();
+
 
 		return EX_SUCCESS;
 	}
