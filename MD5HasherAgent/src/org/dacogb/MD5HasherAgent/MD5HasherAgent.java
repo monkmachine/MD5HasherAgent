@@ -42,21 +42,17 @@ import org.dacogb.MD5Hasher.MD5Hasher;
  * @see com.ibi.common.IComponentManager#addLanguage(String)
  */
 public final class MD5HasherAgent extends XDAgent {
-	// #JsonFileMergerAgent.InputFolder.label=;
-	// #JsonFileMergerAgent.InputFolder.desc=;
+
 	private static final XDPropertyInfo fileLocation = new XDPropertyInfo("File Location", t("#FileLocation"), "",
 			PropertyType.STRING, true, t("#Fully Qualified path of File"));
 
-	// #JsonFileMergerAgent.OutputFolder.label=;
-	// #JsonFileMergerAgent.OutputFolder.desc=;
+
 	private static final XDPropertyInfo md5Algo = new XDPropertyInfo("MD5Algo", t("#CheckSum Algorythym"), "",
 			PropertyType.STRING, true, t("#Algorythm for the checksum"));
 
-	// #JsonFileMergerAgent.ArrayName.label=;
-	// #JsonFileMergerAgent.ArrayName.desc=;
 
 	// register XDPropertyInfo with the correct group
-	private static final PropertyGroup main = new PropertyGroup(t("#JSON File Merge"),
+	private static final PropertyGroup main = new PropertyGroup(t("#CheckSum Agent"),
 			new XDPropertyInfo[] { fileLocation, md5Algo,
 
 			});
@@ -100,8 +96,8 @@ public final class MD5HasherAgent extends XDAgent {
 	 */
 	@Override
 	public String getDesc() {
-		// #JsonFileMergerAgent.desc=xx
-		return t("#Merges json files in a folder");
+
+		return t("#Returns a Checksum and file size for a file");
 	}
 
 	/*
@@ -111,8 +107,8 @@ public final class MD5HasherAgent extends XDAgent {
 	 */
 	@Override
 	public String getLabel() {
-		// #JsonFileMergerAgent.label=JsonFileMergerAgent
-		return t("#JSON File Merger");
+
+		return t("#CheckSum Stream Agent");
 	}
 
 	/**
@@ -125,7 +121,7 @@ public final class MD5HasherAgent extends XDAgent {
 	 */
 	@Override
 	public String[] getOPEdges() {
-		return new String[] { EX_SUCCESS, EX_FAIL_PARSE,EX_FAIL_FORMAT,EX_FAIL_OPERATION,
+		return new String[] { EX_SUCCESS, EX_FAIL_PARSE, EX_FAIL_FORMAT, EX_FAIL_OPERATION,
 
 		};
 	}
@@ -200,7 +196,7 @@ public final class MD5HasherAgent extends XDAgent {
 			errorNode.setValue(e.toString());
 			docOut.getRoot().setLastChild(errorNode);
 			return EX_FAIL_FORMAT;
-			}
+		}
 
 		try {
 			checkSum = md5Hasher.executeMD5Hasher();
@@ -209,18 +205,17 @@ public final class MD5HasherAgent extends XDAgent {
 					+ " is not in the list of supported alorythms which are: MD2, MD5, SHA-1, SHA-224,SHA-256, SHA-384, SHA-512/224, SHA-512/256, SHA3-224, SHA3-256, SHA3-384, SHA3-512");
 			return EX_FAIL_FORMAT;
 		} catch (IOException e) {
-			logger.error("Error is :"+e.toString());
+			logger.error("Error is :" + e.toString());
 			errorNode.setValue(e.toString());
 			docOut.getRoot().setLastChild(errorNode);
 			return EX_FAIL_OPERATION;
 		}
-		File file = new File (fileLocationValue);
+		File file = new File(fileLocationValue);
 		String fileSize = String.valueOf(file.length());
 		checkSumNode.setValue(checkSum);
-	      docOut.getRoot().setLastChild(checkSumNode);
-	      fileSizeNode.setValue(fileSize);
-	      docOut.getRoot().setLastChild(fileSizeNode);
-
+		docOut.getRoot().setLastChild(checkSumNode);
+		fileSizeNode.setValue(fileSize);
+		docOut.getRoot().setLastChild(fileSizeNode);
 
 		return EX_SUCCESS;
 	}

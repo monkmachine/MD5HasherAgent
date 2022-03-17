@@ -6,7 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/MD5Hasher"/>
 	<classpathentry kind="lib" path="C:/iway8/lib/iwaeutil.jar"/>
 	<classpathentry kind="lib" path="C:/iway8/lib/iwaf.jar"/>
 	<classpathentry kind="lib" path="C:/iway8/lib/iwafcont.jar"/>
